@@ -16,22 +16,21 @@ echo "Try to connnect DB by PDO";
 </br>
 <?php
 $host = 'localhost';
-$database = 'abunda12_phpLearn_Register';
+$database = 'Register';
 
-$dsn = 'mysql:host=localhost;dbname=abunda12_phpLearn_Register';
-$user = 'abunda12_phpLearn';
+$dsn = 'mysql:host=localhost;dbname=Register';
+$user = 'root';
 $passwd = '';
  
-try{
-    $db  = new PDO($dsn, $user, $passwd);
-    $db-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connnected to DB successfuly";   
-}catch (PDOException $ex){
-     echo "Connnected to DB failed ".$ex->getMessage();   
-}
+    try{
+        $db  = new PDO($dsn, $user, $passwd);
+        $db-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connnected to DB successfuly";   
+    }catch (PDOException $ex){
+        echo "Connnected to DB failed ".$ex->getMessage();   
+    }
 
 ?>
-
 
 </br>
 <?php

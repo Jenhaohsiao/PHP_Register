@@ -15,6 +15,13 @@
 
     <?php  include_once "./resource/Database-local.php" ?>
 
+    <hr>
+
+
+    <p>You are currently no signin <a href="login.php">Login</a> Not yet a member? <a href="signup.php">signup</a></p>
+    <p>You are looogged inn as {username} <a href="logout.php">Logout</a></P>
+
+
 
 </body>
 
