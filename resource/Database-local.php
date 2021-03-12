@@ -7,32 +7,32 @@ try {
     exit(1);
 }
 
-echo $date->format('Y-m-d h:m:s');
+// echo $date->format('Y-m-d h:m:s');
 ?>
-</br>
+<!-- </br> -->
 <?php
-echo "Try to connnect DB by PDO"; 
+// echo "Try to connnect DB by PDO"; 
 ?>
-</br>
+<!-- </br> -->
 <?php
 $host = 'localhost';
 $database = 'Register';
 
 $dsn = 'mysql:host=localhost;dbname=Register';
 $user = 'root';
-$passwd = '';
- 
+$passwd = ''; 
+
     try{
         $db  = new PDO($dsn, $user, $passwd);
         $db-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connnected to DB successfuly";   
+        // echo "Connnected to DB successfuly";   
     }catch (PDOException $ex){
         echo "Connnected to DB failed ".$ex->getMessage();   
     }
 
 ?>
 
-</br>
+<!-- </br> -->
 <?php
 
 
