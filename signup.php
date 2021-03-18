@@ -1,6 +1,8 @@
 <?php
 
 include_once "./resource/Database-local.php";
+include_once "./resource/utiltites.php";
+
     // var_dump($_POST);
 
      
@@ -12,18 +14,22 @@ include_once "./resource/Database-local.php";
         // Form validation
         $required_fields = array('email','username','password');
 
-        // Looop through the required fields array
+      
+        $form_errors = array_merge($form_errors, check_empty_fields($required_fields));
 
-        foreach ($required_fields as $name_of_field) {
-            if(!isset($_POST[$name_of_field]) || $_POST[$name_of_field] == NULL){
-                $form_errors[] = $name_of_field;
-            }
-        }
+        // Fields that requiires checking for minimun length;
+        $fields_to_check_length = array('username' => 4, 'password'=>6);
+        
+        // call the function to check minimun
+        $form_errors = array_merge($form_errors, check_min_length( $fields_to_check_length));
+
+        // call the function to check email
+        $form_errors = array_merge($form_errors, check_email( $_POST));
 
         // check if error array iis empty, if Yes process form data and insert record
         if(empty($form_errors)){
 
-
+ 
             $email = $_POST['email'];
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -38,42 +44,25 @@ include_once "./resource/Database-local.php";
             $statement->execute(array(':username'=> $username, ':email'=> $email, ':password'=>$hashed_password));
 
                 if($statement->rowCount() == 1){
-                    $result =  "<p style='padding:20px; color:green;'>Registeration Successful </p>";
+                    $result =  "<p style='padding:20px; border:1px solid gray; color:green;'>Registeration Successful </p>";
                 }
 
             }catch (PDOException $ex){
                 echo "Connnected to DB failed ".$ex->getMessage();
                 
-                $result =  "<p style='padding:20px; color:red;'> An error occurred".$ex->getMessage()."</p>";
+                $result =  "<p style='padding:20px;  border:1px solid gray; color:red;'> An error occurred".$ex->getMessage()."</p>";
             }
 
         }else{
             if(count($form_errors) == 1){
 
-                $result =  "<p style='color:red;'> There was 1 error in the form <br>";
-                $result .= "<ul style='color:red;'>";
-                // loop throuuth erroor array and display all items
-
-                foreach ($form_errors as $error) {
-
-                    $result .= "<li> {$error} </li>";
-                }
-
-                $result .= "</ul></p>";
+                $result =  "<p style='color:red;'> There was 1 error in the form <p>";
+              
 
             }else{
 
-                $result = "<p style=' color:red;'> There were " .count($form_errors). " errors in the form <br>";
-                $result .= "<ul style='color:red;'>";
-                // loop throuuth erroor array and display all items
-
-                foreach ($form_errors as $error) {
-
-                    $result .= "<li> {$error} </li>";
-                }
-
-                $result .= "</ul></p>";
-
+                $result = "<p style=' color:red;'> There were " .count($form_errors). " errors in the form <p>";
+                
             }
         }
 
@@ -102,6 +91,13 @@ include_once "./resource/Database-local.php";
         if(isset($result)){
             echo $result;
         }
+    ?>
+
+    <?php
+
+    if(!empty($form_errors)){
+        echo show_errors($form_errors);
+    }
     ?>
 
     <form method="post" action="">
